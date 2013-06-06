@@ -140,7 +140,10 @@
     Tree.prototype.delete = function(key) {
         var node = find(this.root, key);
         if (node === null) return;
-        
+        this.delete_node(node);
+    };
+
+    Tree.prototype.delete_node = function (node) {
         if (node.left !== null && node.right !== null) {
             var pred = node.left;
             while (pred.right !== null) pred = pred.right;
@@ -162,6 +165,26 @@
             this.root.color = BLACK;
         }
     };
+
+    Tree.prototype.minimum = function(x) {
+        if (!x) {
+            x = this.root;
+        }
+        while ((y = x.left) !== null) {
+            x = y;
+        }
+        return x;   
+    };
+
+    Tree.prototype.next = function (x) {
+        if ((y = x.right)) {
+            return this.minimum(y);
+        }
+        for (y = x.parent; y && x === y.right; y = y.parent) {
+            x = y;
+        }
+        return y;
+    }
     
     Tree.prototype.range = function(start, end) {
         return new Cursor(this, start, end);

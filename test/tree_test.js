@@ -75,4 +75,10 @@ describe('Tree', function() {
         });
         assert.equal(i, 4568);
     });
+    it('procedural-style traversal', function () {
+        var i = 0;
+        for (x = tree.minimum(); x; x = tree.next(x)) {
+            assert.equal(x.key, i++);
+        }
+    });
 });
