@@ -122,7 +122,7 @@
         var node = find(this.root, key);
         return node === null ? null : node.value;
     };
-    
+
     Tree.prototype.insert = function(key, value) {
         var newNode = new Node(key, value);
         
@@ -156,6 +156,7 @@
         }
         
         this.balancer.inserted(newNode);
+        return newNode;
     };
     
     Tree.prototype.delete = function(key) {

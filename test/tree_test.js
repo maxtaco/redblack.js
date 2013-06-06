@@ -75,10 +75,36 @@ describe('Tree', function() {
         });
         assert.equal(i, 4568);
     });
+
     it('procedural-style traversal', function () {
         var i = 0;
+        var x;
         for (x = tree.minimum(); x; x = x.next()) {
             assert.equal(x.key, i++);
         }
     });
+
+    it('delete by node', function () {
+        var tree2 = redblack.tree();
+        var delete_indices = { 44 : true, 49 : true, 88 : true};
+        var delete_objs = [];
+        var special_obj;
+        for (var i = 0; i < 100; i++) {
+            obj = { key : i };
+            if (delete_indices[i]) {
+                delete_objs.push(obj);
+            }
+            obj.node = tree2.insert(obj.key, obj);
+        }
+        for (var x in delete_objs) {
+            tree2.delete_node(delete_objs[x].node);
+        }
+        var i = 0;
+        var x;
+        for (x = tree2.minimum(); x; x = x.next()) {
+            while (delete_indices[i]) { i++; }
+            assert.equal(x.key, i++);
+        }
+    });
+
 });
