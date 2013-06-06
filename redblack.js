@@ -17,8 +17,8 @@
         return redblack;
     };
     
-    redblack.tree = function() {
-        return new Tree();
+    redblack.tree = function(opts) {
+        return new Tree(opts);
     };
     
     var BLACK = redblack.BLACK = 'black';
@@ -113,9 +113,12 @@
     // Tree
     // ---------------
     
-    function Tree() {
+    function Tree(opts) {
         this.root = null;
         this.balancer = new Balancer(this);
+        if (typeof(opts) === 'object') {
+            this.allow_equal_keys = !!opts.allow_equal_keys;
+        }
     };
     
     Tree.prototype.get = function(key) {
@@ -132,7 +135,8 @@
             var node = this.root;
             
             while (true) {
-                if (key < node.key) {
+                if ((key < node.key) || 
+                    (key == node.key && this.allow_equal_keys)) {
                     if (node.left === null) {
                         node.left = newNode;
                         break;

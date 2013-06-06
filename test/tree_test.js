@@ -107,4 +107,38 @@ describe('Tree', function() {
         }
     });
 
+
+    it('test treatment of equal keys, with clobbering', function() {
+        // Add everything a second time.
+        helpers.loop(n, function(i) {
+            tree.insert(i, i);
+        });
+
+        // As above, everything should be in there only once.
+        var i = 0;
+        var x;
+        for (x = tree.minimum(); x; x = x.next()) {
+            assert.equal(x.key, i++);
+        }
+    });
+
+    it('test treatment of equal keys, without clobbering', function() {
+        // Add everything a second time.
+        var tree2 = redblack.tree({allow_equal_keys : true });
+
+        // Insert everything n_repeats times
+        var n_repeats = 3;
+        for (var j = 0; j < n_repeats; j++) {
+            helpers.loop(n/5, function(i) {
+                tree2.insert(i, i);
+            });
+        }
+
+        var i = 0;
+        var x;
+        for (x = tree2.minimum(); x; x = x.next()) {
+            assert.equal(x.key, Math.floor(i++/n_repeats));
+        }
+    });
 });
+
