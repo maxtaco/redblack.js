@@ -78,8 +78,7 @@ describe('Tree', function() {
 
     it('procedural-style traversal', function () {
         var i = 0;
-        var x;
-        for (x = tree.minimum(); x; x = x.next()) {
+        for (var x = tree.minimum(); x; x = x.next()) {
             assert.equal(x.key, i++);
         }
     });
@@ -100,8 +99,7 @@ describe('Tree', function() {
             tree2.delete_node(delete_objs[x].node);
         }
         var i = 0;
-        var x;
-        for (x = tree2.minimum(); x; x = x.next()) {
+        for (var x = tree2.minimum(); x; x = x.next()) {
             while (delete_indices[i]) { i++; }
             assert.equal(x.key, i++);
         }
@@ -109,22 +107,24 @@ describe('Tree', function() {
 
 
     it('test treatment of equal keys, with clobbering', function() {
+
         // Add everything a second time.
         helpers.loop(n, function(i) {
             tree.insert(i, i);
         });
+        helpers.assertBalanced(tree);
 
         // As above, everything should be in there only once.
         var i = 0;
-        var x;
-        for (x = tree.minimum(); x; x = x.next()) {
+        for (var x = tree.minimum(); x; x = x.next()) {
             assert.equal(x.key, i++);
         }
+
     });
 
     it('test treatment of equal keys, without clobbering', function() {
         // Add everything a second time.
-        var tree2 = redblack.tree({allow_equal_keys : true });
+        var tree2 = redblack.tree({allow_repeat_keys : true });
 
         // Insert everything n_repeats times
         var n_repeats = 3;
@@ -133,10 +133,10 @@ describe('Tree', function() {
                 tree2.insert(i, i);
             });
         }
+        helpers.assertBalanced(tree2);
 
         var i = 0;
-        var x;
-        for (x = tree2.minimum(); x; x = x.next()) {
+        for (var x = tree2.minimum(); x; x = x.next()) {
             assert.equal(x.key, Math.floor(i++/n_repeats));
         }
     });

@@ -117,7 +117,7 @@
         this.root = null;
         this.balancer = new Balancer(this);
         if (typeof(opts) === 'object') {
-            this.allow_equal_keys = !!opts.allow_equal_keys;
+            this.allow_repeat_keys = !!opts.allow_repeat_keys;
         }
     };
     
@@ -136,7 +136,7 @@
             
             while (true) {
                 if ((key < node.key) || 
-                    (key == node.key && this.allow_equal_keys)) {
+                    (key == node.key && this.allow_repeat_keys)) {
                     if (node.left === null) {
                         node.left = newNode;
                         break;
