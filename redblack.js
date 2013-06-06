@@ -50,6 +50,27 @@
         if (this.parent === null) return null;
         return this.parent.sibling();
     };
+
+    Node.prototype.minimum = function() {
+        var x = this;
+        var y;
+        while ((y = x.left) !== null) {
+            x = y;
+        }
+        return x;   
+    };
+
+    Node.prototype.next = function() {
+        var x = this;
+        var y;
+        if ((y = x.right)) {
+            return y.minimum();
+        }
+        for (y = x.parent; y && x === y.right; y = y.parent) {
+            x = y;
+        }
+        return y;
+    };
     
     // Cursor
     // ---------------
@@ -170,21 +191,8 @@
         if (!x) {
             x = this.root;
         }
-        while ((y = x.left) !== null) {
-            x = y;
-        }
-        return x;   
+        return x.minimum();
     };
-
-    Tree.prototype.next = function (x) {
-        if ((y = x.right)) {
-            return this.minimum(y);
-        }
-        for (y = x.parent; y && x === y.right; y = y.parent) {
-            x = y;
-        }
-        return y;
-    }
     
     Tree.prototype.range = function(start, end) {
         return new Cursor(this, start, end);

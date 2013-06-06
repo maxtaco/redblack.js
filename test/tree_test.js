@@ -77,7 +77,7 @@ describe('Tree', function() {
     });
     it('procedural-style traversal', function () {
         var i = 0;
-        for (x = tree.minimum(); x; x = tree.next(x)) {
+        for (x = tree.minimum(); x; x = x.next()) {
             assert.equal(x.key, i++);
         }
     });
